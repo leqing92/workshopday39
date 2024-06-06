@@ -1,0 +1,62 @@
+<h2>Add Employee</h2>
+
+<div>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div>
+            <div>
+                <label for="file">Profile Pic :</label>
+            </div>
+            <input
+                formControlName="file"            
+                type="file"
+                #file
+            >        
+            <div *ngIf="form.get('file')?.invalid && form.get('file')?.touched" style="color: red;">
+                <div *ngIf="form.get('file')?.hasError('required')">
+                    File is required
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <label for="firstName">First Name : </label>
+            </div>
+            <div>
+                <input type="text" formControlName="firstName">
+            </div>
+            <div *ngIf="form.get('firstName')?.invalid && form.get('firstName')?.touched" style="color: red;">
+                <div *ngIf="form.get('firstName')?.hasError('required')">
+                    First Name is required
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <label for="lastName">Last Name : </label>
+            </div>
+            <div>
+                <input type="text" formControlName="lastName">
+            </div>
+            <div *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched" style="color: red;">
+                <div *ngIf="form.get('lastName')?.hasError('required')">
+                    Last Name is required
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <label for="email">Email : </label>
+            </div>
+            <div>
+                <input type="text" formControlName="email">
+            </div>
+            <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched" style="color: red;">
+                <div *ngIf="form.get('email')?.hasError('required') || form.get('email')?.hasError('email')">
+                    Email is required or email format wrong
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" [disabled]="form.invalid">Submit</button>
+    </form>
+</div>

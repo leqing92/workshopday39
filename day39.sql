@@ -1,0 +1,15 @@
+DROP SCHEMA if EXISTS day39;
+CREATE SCHEMA day39;
+
+USE day39;
+
+DROP TABLE IF EXISTS employees;
+CREATE TABLE employees (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `firstName` VARCHAR(45) NOT NULL,
+  `lastName` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL UNIQUE,
+  `profileUrl` VARCHAR(2083) NOT NULL,
+  
+  PRIMARY KEY (`id`)  
+  );
