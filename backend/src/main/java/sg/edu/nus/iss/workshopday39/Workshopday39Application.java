@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import sg.edu.nus.iss.workshopday39.models.Employee;
 import sg.edu.nus.iss.workshopday39.services.EmployeeService;
 
 @SpringBootApplication

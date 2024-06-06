@@ -1,0 +1,41 @@
+<table *ngIf="employees" border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Profile Pic</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let e of employees;let i = index">
+            <td> {{ e.id }}</td>
+            <td> {{ e.firstName }}</td>
+            <td> {{ e.lastName }}</td>
+            <td> {{ e.email }} </td>
+            <td> <img [src]="e.profileUrl" height="30"></td>
+            <td> 
+                <button type="button" (click)="toEdit(e.id)"> Edit </button>
+                <button type="button" (click)="toDelete(e.id)" style="margin-left: 15px;"> Delete </button>
+            </td>
+        </tr>
+    </tbody>
+    <tr>Following is async</tr>
+    <tbody>
+        <tr *ngFor="let e of employees$ | async;let i = index">
+            <td> {{ e.id }}</td>
+            <td> {{ e.firstName }}</td>
+            <td> {{ e.lastName }}</td>
+            <td> {{ e.email }} </td>
+            <td> <img [src]="e.profileUrl" height="30"></td>
+            <td> 
+                <button type="button" (click)="toEdit(e.id)"> Edit </button>
+                <button type="button" (click)="toDelete(e.id)" style="margin-left: 15px;"> Delete </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<h2 *ngIf="!employees"> no employees</h2>
+<a routerLink="/">Back to Home Page</a>

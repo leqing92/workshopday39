@@ -1,7 +1,7 @@
-<h2>Add Employee</h2>
+<h2>Edit Employee</h2>
 <a routerLink="/list">Back to List</a>
 <div>
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form [formGroup]="form" (ngSubmit)="update()">
         <div>
             <div>
                 <label for="file">Profile Pic :</label>
@@ -20,6 +20,10 @@
             <div *ngIf="previewUrl">
                 <h3>Image Preview:</h3>
                 <img [src]="previewUrl" height="100">
+            </div>
+            <div>
+                <h3>Original Profile Picture:</h3>
+                <img [src]="existingProfileUrl" style="height: 100px;">
             </div>
         </div>
         <div>
@@ -62,6 +66,6 @@
             </div>
         </div>
 
-        <button type="submit" [disabled]="form.invalid">Submit</button>
+        <button type="submit">Update</button>
     </form>
 </div>

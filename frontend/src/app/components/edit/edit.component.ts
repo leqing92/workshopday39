@@ -1,41 +1,66 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { Employee } from '../models/models';
+import { EmployeeService } from '../../employee.service';
 
 @Component({
-  selector: 'app-employee',
-  templateUrl: './employee.component.html',
-  styleUrl: './employee.component.css'
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrl: './edit.component.css'
 })
-export class EmployeeComponent implements OnInit {
-  
+export class EditComponent {
   private readonly formbuilder = inject(FormBuilder);
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
-  
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly employeeSvc = inject(EmployeeService);
+
   form !: FormGroup;
+  id !: number;
+  employee !: Employee;
+  existingProfileUrl!: string;
   previewUrl!: string | ArrayBuffer | null;
+
   @ViewChild('file') img !: ElementRef; 
 
   ngOnInit(): void {
+    this.id  = this.activatedRoute.snapshot.params['id'];
+    
     this.form = this.formbuilder.group({
       'file' : this.formbuilder.control("", [Validators.required]),
       firstName : this.formbuilder.control("", [ Validators.required]),
       lastName : this.formbuilder.control("", [ Validators.required]),
       email : this.formbuilder.control("", [ Validators.required, Validators.email])
     })
+
+    //get data from backend and patch into form
+    firstValueFrom(this.employeeSvc.getEmployeeById(this.id))
+      .then(response => {
+        this.employee = response;
+        this.existingProfileUrl = this.employee.profileUrl;
+        this.form.patchValue({
+          firstName: this.employee.firstName,
+          lastName: this.employee.lastName,
+          email: this.employee.email
+        });
+      })
+      .catch(error => {
+        console.log("error: " + JSON.stringify(error));
+        alert(error);
+      });
   }
 
-  submit(){
+  update(){
     const formData = new FormData();
     formData.set('firstName', this.form.get('firstName')?.value);
     formData.set('lastName', this.form.get('lastName')?.value);
     formData.set('email', this.form.get('email')?.value);
     formData.set('profile', this.img.nativeElement.files[0]);    
 
-    firstValueFrom(this.http.post('/api/add', formData, { responseType: 'text' }))
+    firstValueFrom(this.http.post(`/api/employees/update/${this.id}`, formData, { responseType: 'text' }))
       .then(response => {
         console.log("response: " + response);
         alert(response);
