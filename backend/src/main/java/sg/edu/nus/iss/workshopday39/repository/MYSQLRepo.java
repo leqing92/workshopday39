@@ -21,23 +21,30 @@ public class MYSQLRepo {
         template.update(Queries.SAVE_EMPLOYEE, employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getProfileUrl());
     }
 
-    public List<Employee> getList(){
+    public Optional<List<Employee>> getList(){
         List<Employee> employees = new LinkedList<>();
 
         final SqlRowSet rs = template.queryForRowSet(Queries.GET_LIST);
+        if(!rs.next()){
+            return Optional.empty();
+        }
+        else{
+            // Move back the cursor back to before the first row as the if check above moved the crusor by one row
+            rs.beforeFirst();
 
-        while(rs.next()){
-            Employee employee = new Employee();
-            employee.setId(rs.getInt("id"));
-            employee.setFirstName(rs.getString("firstName"));
-            employee.setLastName(rs.getString("lastName"));
-            employee.setEmail(rs.getString("email"));
-            employee.setProfileUrl(rs.getString("profileUrl"));
-
-            employees.add(employee);
-        }   
-
-        return employees;
+            while(rs.next()){
+                Employee employee = new Employee();
+                employee.setId(rs.getInt("id"));
+                employee.setFirstName(rs.getString("firstName"));
+                employee.setLastName(rs.getString("lastName"));
+                employee.setEmail(rs.getString("email"));
+                employee.setProfileUrl(rs.getString("profileUrl"));
+    
+                employees.add(employee);
+            }   
+    
+            return Optional.of(employees);
+        }
     }
 
     public Optional<Employee> getEmployeeById(int id){
@@ -51,10 +58,11 @@ public class MYSQLRepo {
             employee.setLastName(rs.getString("lastName"));
             employee.setEmail(rs.getString("email"));
             employee.setProfileUrl(rs.getString("profileUrl"));
+
+            return Optional.of(employee);
         }else{
-            Optional.empty();
-        }
-        return Optional.of(employee);
+            return Optional.empty();
+        }        
     }
 
     public Boolean updateEmployeeById(Employee employee){

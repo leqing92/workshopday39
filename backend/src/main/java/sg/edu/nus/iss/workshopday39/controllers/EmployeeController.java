@@ -22,7 +22,7 @@ public class EmployeeController {
     
     @Autowired
     EmployeeService employeeSvc;
-
+// Create
     @PostMapping(path="/add" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     public ResponseEntity<String> addEmployee(
         @RequestPart ("firstName") String firstName,
@@ -42,18 +42,18 @@ public class EmployeeController {
         
         return ResponseEntity.ok("ok");
     }
-    
+// Read    
     @GetMapping(path="/list")
     public ResponseEntity<String> getMethodName() {
         String employees = employeeSvc.getList();
-        System.out.println(employees);
+        // System.out.println(employees);
         return ResponseEntity.ok(employees);
     }
-//for update    
+// Update    
     @GetMapping(path="/employees/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable int id) {
 
-        return ResponseEntity.ok(employeeSvc.getEmployeeById(id));
+        return employeeSvc.getEmployeeById(id);
     }
 
     @PostMapping(path="/employees/update/{id}")
@@ -73,7 +73,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeSvc.updateEmployeeById(employee, profile));
     }
     
-//for delete
+// Delete
     @GetMapping(path="/employees/delete/{id}")
     public ResponseEntity<Boolean> deleteEmployeeById(@PathVariable int id) {
         return ResponseEntity.ok(employeeSvc.deleteEmployeeById(id));

@@ -5,3 +5,10 @@ export interface Employee{
     email : string;
     profileUrl : string;
 }
+
+export interface ErrorMessage {
+    statusCode: number;
+    timeStamp: string;
+    message: string;
+    description: string;
+}

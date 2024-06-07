@@ -9,6 +9,7 @@ import { ListComponent } from './components/list/list.component';
 import { EmployeeService } from './employee.service';
 import { RouterModule, Routes } from '@angular/router';
 import { EditComponent } from './components/edit/edit.component';
+import { ErrorComponent } from './components/error/error.component';
 
 const appRoute : Routes = [
   // do not start with a slash "/"
@@ -17,6 +18,7 @@ const appRoute : Routes = [
   // mean /cat
   {path:'list', component: ListComponent},
   {path:'edit/:id', component: EditComponent},
+  {path:'error', component: ErrorComponent},
   // ↓ this must be the last route
   // wildcard
   {path:'**', redirectTo: '/', pathMatch:'full'}
@@ -27,13 +29,14 @@ const appRoute : Routes = [
     AppComponent,
     EmployeeComponent,
     ListComponent,
-    EditComponent
+    EditComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoute)
+    RouterModule.forRoot(appRoute, {useHash: true})
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent]

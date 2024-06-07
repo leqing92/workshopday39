@@ -1,0 +1,12 @@
+h2{
+    font-size: xx-large;
+    color: transparent;
+    background: url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWs5NTl3Y21hazV4Z2s0NW9mZXFpZzdqczN4bnAya3JhZGI1OWV1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jgEux87ScUhijygVm7/giphy.gif') no-repeat;
+    background-size: 160px;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block; /* Ensures background covers the text */
+}
+
+
