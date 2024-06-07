@@ -23,7 +23,7 @@ export class EditComponent {
   employee !: Employee;
   existingProfileUrl!: string;
   previewUrl!: string | ArrayBuffer | null;
-
+  //method from slide 8 day37 ; require to put #file in html to indicate 
   @ViewChild('file') img !: ElementRef; 
 
   ngOnInit(): void {
@@ -36,7 +36,7 @@ export class EditComponent {
       email : this.formbuilder.control("", [ Validators.required, Validators.email])
     })
 
-    //get data from backend and patch into form
+    //get data from backend and patch the value into form
     firstValueFrom(this.employeeSvc.getEmployeeById(this.id))
       .then(response => {
         this.employee = response;
@@ -48,8 +48,10 @@ export class EditComponent {
         });
       })
       .catch(error => {
-        console.log("error: " + JSON.stringify(error));
-        alert(error);
+        console.log(error);
+        alert(JSON.stringify(error));
+        console.log("Navigating to error page with state:", { errorMessage: JSON.stringify(error) });
+        this.router.navigate(['/error'], { state: { errorMessage: JSON.stringify(error) }});
       });
   }
 
@@ -60,14 +62,14 @@ export class EditComponent {
     formData.set('email', this.form.get('email')?.value);
     formData.set('profile', this.img.nativeElement.files[0]);    
 
-    firstValueFrom(this.http.post(`/api/employees/update/${this.id}`, formData, { responseType: 'text' }))
+    firstValueFrom(this.employeeSvc.updateEmployee(formData, this.id))
       .then(response => {
-        console.log("response: " + response);
+        // console.log("response: " + response);
         alert(response);
         this.router.navigate(['/list'])
       })
       .catch(error => {
-        console.log("error: " + JSON.stringify(error))
+        // console.log("error: " + JSON.stringify(error))
         alert(error);
       });
   }

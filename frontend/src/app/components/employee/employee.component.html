@@ -4,16 +4,15 @@
     <form [formGroup]="form" (ngSubmit)="submit()">
         <div>
             <div>
-                <label for="file">Profile Pic :</label>
+                <label for="profile">Profile Pic :</label>
             </div>
             <input
-                formControlName="file"            
-                type="file"
-                #file
+                formControlName="profile"            
+                type="file"                
                 (change)="onFileChange($event)"
             >        
-            <div *ngIf="form.get('file')?.invalid && form.get('file')?.touched" style="color: red;">
-                <div *ngIf="form.get('file')?.hasError('required')">
+            <div *ngIf="form.get('profile')?.invalid && form.get('profile')?.touched" style="color: red;">
+                <div *ngIf="form.get('profile')?.hasError('required')">
                     File is required
                 </div>
             </div>
